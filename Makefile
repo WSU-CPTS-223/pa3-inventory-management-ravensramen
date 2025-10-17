@@ -1,10 +1,17 @@
-out: clean compile execute
+CXX = g++
+CXXFLAGS = -Wall -g -std=c++17
 
-compile: main.cpp
-	g++ -g -Wall -std=c++14 main.cpp -o mainexe
+# List all your .cpp files here
+SRCS = main.cpp
+OBJS = $(SRCS:.cpp=.o)
 
-execute: mainexe
-	./mainexe
+TARGET = program
+
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f mainexe
+	rm -f $(OBJS) $(TARGET)
