@@ -2,25 +2,12 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build with Makefile",
+      "label": "build",
       "type": "shell",
-      "command": "make",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
+      "command": "g++",
+      "args": ["-g", "*.cpp", "-o", "program"],
+      "group": { "kind": "build", "isDefault": true },
       "problemMatcher": ["$gcc"]
-    },
-    {
-      "label": "Run program",
-      "type": "shell",
-      "command": "./program", 
-      "dependsOn": "Build with Makefile"
-    },
-    {
-      "label": "Clean build",
-      "type": "shell",
-      "command": "make clean"
     }
   ]
 }
