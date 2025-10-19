@@ -103,11 +103,13 @@ public:
 class productData{
 
 private: 
-int itemID;
+string itemID;
 string productName;
 categoryList itemCategories; //needs to be a linked list :(
 
 public: 
-productData() : itemID(0), productName("") {}
+productData() : itemID(""), productName("") {}
 
+productData(string item, string name, categoryList list):
+    itemID(item), productName(name), itemCategories(list){}
 };
