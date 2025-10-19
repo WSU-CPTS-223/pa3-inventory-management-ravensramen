@@ -5,17 +5,19 @@
 //prints menu
 void printHelp()
 {
-    cout << "Supported list of commands: " << endl;
-    cout << " 1. find <inventoryid> - Finds if the inventory exists. If exists, prints details. If not, prints 'Inventory not found'." << endl;
-    cout << " 2. listInventory <category_string> - Lists just the id and name of all inventory belonging to the specified category. If the category doesn't exists, prints 'Invalid Category'.\n"
+    system("clear");
+
+    cout << "Here are the commands: \n" << endl;
+    cout << " 1. find - Finds if the inventory exists. Prints if item exists or is not found" << endl;
+    cout << " 2. listInventory - Lists id and name of all inventory belonging to a specified category.\n    If category doesn't exist, prints 'Invalid Category'.\n"
          << endl;
-    cout << " Use :quit to quit the REPL" << endl;
+    cout << " Enter \"quit\" the exit." << endl;
 }
 
 //validated input string -> checks if coresponds to menu option
 bool validCommand(string line)
 {
-    return (line == ":help") ||
+    return (line == "help") ||
            (line.rfind("find", 0) == 0) ||
            (line.rfind("listInventory") == 0);
 }
@@ -23,7 +25,7 @@ bool validCommand(string line)
 //runs operation coresponding to user input command
 void evalCommand(string line)
 {
-    if (line == ":help")
+    if (line == "help")
     {
         printHelp();
     }
@@ -44,9 +46,9 @@ void evalCommand(string line)
 //Main program logic -> reads input data into data structures
 void bootStrap()
 {
-    cout << "\n Welcome to Amazon Inventory Query System" << endl;
-    cout << " enter :quit to exit. or :help to list supported commands." << endl;
-    cout << "\n> ";
+    cout << "Welcome to Amazon Inventory System\n" << endl;
+    cout << "Enter \"quit\" to exit or \"help\" to view commands:" << endl;
+    
     // TODO: Do all your bootstrap operations here
     // example: reading from CSV and initializing the data structures
     // Don't dump all code into this single function
