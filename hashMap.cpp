@@ -26,7 +26,7 @@ struct Entry {
 
 //basic hashing function, finds index given input key
 int hashFunction(const keyType& k) const {
-    return std::hash<Key>{}(k) % capacity;
+    return std::hash<keyType>{}(k) % capacity; 
 }
 
 void rehash() { //rehash if hashmap is too full (loadfactor over 3/4)
@@ -71,7 +71,7 @@ valueType* find(const keyType& key){
     int index = hashFunction(key);
     for(auto& entry: buckets[index]){
         if (entry.key == key){
-            return &entry.value
+            return &entry.value;
         }
     }
     return nullptr;  //return null if item not found
@@ -94,7 +94,7 @@ int size() const{
     return this->numElements;
 }
 
-bool empty() const{
+bool empty() const{ //checks if the container is empty
     return this->numElements == 0;
 }
 

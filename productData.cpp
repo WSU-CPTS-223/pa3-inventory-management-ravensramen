@@ -112,4 +112,17 @@ productData() : itemID(""), productName("") {}
 
 productData(string item, string name, categoryList list):
     itemID(item), productName(name), itemCategories(list){}
+
+//public interface getters to print after searching
+string getName(){
+    return this->productName;
+}
+string getID(){
+    return this->itemID;
+}
+
+void printCategories(){ //display categories
+    itemCategories.display();
+}
+
 };

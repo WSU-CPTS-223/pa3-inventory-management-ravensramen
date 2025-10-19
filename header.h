@@ -4,7 +4,8 @@
 //10/18
 
 //TO:DO
-//create two hash maps (inventory id -> product data object), (category -> product data object)
+//work on parsing CSV
+//test maps
 
 //declaration of functions and libraries used by main
 //descriptions in .cpp
