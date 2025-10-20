@@ -49,8 +49,26 @@ void bootStrap()
     cout << "Welcome to Amazon Inventory System\n" << endl;
     cout << "Enter \"quit\" to exit or \"help\" to view commands:" << endl;
     
+    ///READ CSV INTO BOTH CONTAINERS
+
+    
+    
     // TODO: Do all your bootstrap operations here
     // example: reading from CSV and initializing the data structures
     // Don't dump all code into this single function
     // use proper programming practices
+}
+
+void readCSVintoIDMAP(idMap idLookup, ifstream inputCSV){
+
+    if (!inputCSV.is_open()){
+        std::cerr <<"Cannot open the product csv for reading. "<<endl;
+        return; //return, can't parse invalid CSV
+    }
+
+    std::string line;
+    while(getline(inputCSV, line)){ //extracts one line from the csv, goes on to parse it
+        std::stringstream ss(line); //create a string stream, easier parsing
+    }
+
 }

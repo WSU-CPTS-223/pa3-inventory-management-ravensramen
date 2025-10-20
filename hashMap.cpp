@@ -1,6 +1,8 @@
 #include <functional> //for std::hash
 #include <string>
 #include <iostream>
+#include <vector>
+#include <list>
 
 using namespace std;
 

@@ -14,6 +14,11 @@
 #include <string>
 #include <cstdlib>
 
+#include <fstream> //for csv file reading
+#include <sstream>
+
+#include "derivedMaps.cpp"
+
 using namespace std;
 
 void printHelp();

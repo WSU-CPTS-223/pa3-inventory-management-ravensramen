@@ -33,6 +33,8 @@ void findProduct(const string& key){
 }
 };
 
+///////////////////////////////////////////////////////////////////////////
+
 //another map to store all the items with a given category
 //category name is the string, linked list of products is the data
 class categoryMap : public hashMap<string, list<productData>>{
