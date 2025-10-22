@@ -20,6 +20,7 @@
 #include "derivedMaps.cpp"
 
 using namespace std;
+using std::ifstream;
 
 void printHelp();
 
@@ -27,4 +28,10 @@ bool validCommand(string line);
 
 void evalCommand(string line);
 
-void bootStrap();
+void bootStrap(ifstream& productsCSV, idMap idHashMap, categoryMap categoryHashMap);
+
+void readCSVintoIDMAP(idMap idLookup, ifstream& inputCSV);
+
+string removeExtraCSVCharacters(string& improperString);
+
+void extractCategories(string& categoryString);
