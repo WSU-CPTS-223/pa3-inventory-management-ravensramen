@@ -76,6 +76,7 @@ void readCSVintoIDMAP(idMap idLookup, ifstream& inputCSV){
 
         string itemID, name; //declare strings to store each product data item
         string category; //single string for category, insert multiple into product linked list
+        categoryList categories; //linked list to store all categories read
 
         string consumeDelim; //just to consume/skip over categories we dont need 
 
@@ -92,9 +93,15 @@ void readCSVintoIDMAP(idMap idLookup, ifstream& inputCSV){
         getline(ss, category, ','); 
         //create a function to get all catgories (separated by "|") and insert into the linked list
 
-        extractCategories(category);
+        extractCategories(category, categories);
 
-
+        //create an instance productData now that all fields are extracted from CSV
+        productData product(itemID, name, categories); 
+        
+        idLookup.insert(itemID, product); //insert into the map, id is the key, product data as the data
+    
+        continue; //skips rest of the line -> goes to next iteration (we extracted all the required info)
+    
     }
 
 }
@@ -108,20 +115,29 @@ string removeExtraCSVCharacters(string& improperString){
     return improperString; //string now cleaned up
 }
 
-void extractCategories(string& categoryString){
+void extractCategories(string& categoryString, categoryList& categories){
 
+    categoryList itemCategories;
     //working on parsing categories, need to work on cleaning up spaces and stuff :'))
-
-    stringstream allcat(categoryString); //one string stream for all categories to parse again
-    string extractedCategory;
-    string garbage;
 
     categoryString.erase(std::remove(categoryString.begin(), categoryString.end(), '\"'));
 
-    while(!(allcat.eof())){ //while not at the end of the string stream
-        getline(allcat, extractedCategory, '|'); //each category is seperated by |
-        cout<<extractedCategory;
-    }
+    stringstream ss(categoryString); //one string stream for all categories to parse again
+    string category;
 
+
+    while(getline(ss, category, '|')){ //while not at the end of the string stream
+        
+    category.erase(category.begin(), find_if(category.begin(), category.end(), [](unsigned char ch) {
+        return !isspace(ch); //isspace function looks for whitespace characters, returns non whitespace chars
+    }));
+    category.erase(find_if(category.rbegin(), category.rend(), [](unsigned char ch) {
+        return !isspace(ch);
+    }).base(), category.end());
+
+    cout << category << '\n';
+    
+    categories.addBack(category); //add each read category to the linked list of categories
+    }
 
 }

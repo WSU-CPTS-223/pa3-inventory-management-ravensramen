@@ -34,4 +34,4 @@ void readCSVintoIDMAP(idMap idLookup, ifstream& inputCSV);
 
 string removeExtraCSVCharacters(string& improperString);
 
-void extractCategories(string& categoryString);
+void extractCategories(string& categoryString, categoryList& categories);

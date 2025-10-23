@@ -27,6 +27,51 @@ public:
     // Constructor
     categoryList() : head(nullptr) {}
 
+    // Copy constructor (deep copy)
+    categoryList(const categoryList& other) : head(nullptr) {
+        if (other.head == nullptr)
+            return;
+
+        head = new itemCategory(other.head->data);
+        itemCategory* current = head;
+        itemCategory* otherCurrent = other.head->next;
+
+    while (otherCurrent != nullptr) {
+            current->next = new itemCategory(otherCurrent->data);
+            current = current->next;
+            otherCurrent = otherCurrent->next;
+        }
+    }
+
+
+    categoryList& operator=(const categoryList& other) {
+    if (this == &other)
+        return *this;
+
+    // Delete current list
+    while (head != nullptr) {
+        itemCategory* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    // Deep copy from other
+    if (other.head == nullptr)
+        return *this;
+
+    head = new itemCategory(other.head->data);
+    itemCategory* current = head;
+    itemCategory* otherCurrent = other.head->next;
+
+    while (otherCurrent != nullptr) {
+        current->next = new itemCategory(otherCurrent->data);
+        current = current->next;
+        otherCurrent = otherCurrent->next;
+    }
+
+    return *this;
+}
+
     // Destructor to free memory
     ~categoryList() {
         itemCategory* current = head;
