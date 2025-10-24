@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
         if (validCommand(line))
         {
             evalCommand(idLookup, line);
-            continue;
+            
         }
         else
         {
