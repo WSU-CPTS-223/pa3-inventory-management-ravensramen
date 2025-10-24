@@ -30,7 +30,7 @@ void printHelp();
 
 bool validCommand(string line);
 
-void evalCommand(idMap& idHashMap, string line);
+void evalCommand(idMap& idHashMap, categoryMap& categoryHashMap, const string& line);
 
 void bootStrap(ifstream& productsCSV, idMap& idHashMap, categoryMap& categoryHashMap);
 
@@ -44,3 +44,4 @@ void printCategoryMap(categoryMap& cmap); //FOR DEBUG, REPLACE WITH TESTCASES
 
 void findIfIDExists(idMap &idHashMap, string ID);
 
+void findItemsInCategory(categoryMap &catMap, string Category);

@@ -67,9 +67,9 @@ void listCategoryItems(const string& category){
         return;
     }
 
-    cout<<"Here are all the items under category "<<category;
+    cout<<"Items: ";
     for(auto& p: *productList){
-        cout<<p.getName(); 
+        cout<<p.getName()<<", ";
     }
 
 }

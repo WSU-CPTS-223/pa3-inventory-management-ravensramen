@@ -23,25 +23,21 @@ bool validCommand(string line)
 }
 
 //runs operation coresponding to user input command
-void evalCommand(idMap& idHashMap, string line) //maps are already populated
+void evalCommand(idMap& idHashMap, categoryMap& categoryHashMap, const string& line)
 {
-    if (line == "help")
-    {
+    string input;
+    if (line == "help") {
         printHelp();
     }
-    // if line starts with find
-    else if (line.rfind("find", 0) == 0)
-    {
-        string idInput;
-        cout<<"Item ID: ";
-        cin>>idInput;
-        findIfIDExists(idHashMap, idInput);
+    else if (line.rfind("find", 0) == 0) {
+        cout<<"Input ID: ";
+       cin>>input;
+        idHashMap.findProduct(input);
     }
-    // if line starts with listInventory
-    else if (line.rfind("listInventory") == 0)
-    {
-        // Look up the appropriate datastructure to find all inventory belonging to a specific category
-        cout << "YET TO IMPLEMENT!" << endl;
+    else if (line.rfind("listInventory", 0) == 0) {
+        cout<<"Input category: ";
+        cin>>input;
+        categoryHashMap.listCategoryItems(input);
     }
 }
 
@@ -165,11 +161,11 @@ void findIfIDExists(idMap &idHashMap, string ID){
 }
 
 
+void findItemsInCategory(categoryMap &catMap, string Category){
 
+    catMap.listCategoryItems(Category);
 
-
-
-
+}
 
 
 

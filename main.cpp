@@ -11,25 +11,24 @@ int main(int argc, char const *argv[])
 
     string line;
     bootStrap(productsCSV, idLookup, categoryLookup);
-    while (true) //read user input until exit/quit
+
+    while (true) // read user input until exit/quit
     {
-        if(!getline(cin, line)){
-            break;
+        cout << "> "; // prompt user for input
+        if (!getline(cin, line)) {
+            break; // EOF or error
         }
 
-        if (line == "quit"){
-            break;
+        if (line == "quit") {
+            break; // exit loop
         }
 
-        if (validCommand(line))
-        {
-            evalCommand(idLookup, line);
-            
-        }
-        else
-        {
+        if (validCommand(line)) {
+            evalCommand(idLookup, categoryLookup, line);
+        } else {
             cout << "Command not supported. Enter \"help\" to view commands" << endl;
         }
     }
+
     return 0;
 }
