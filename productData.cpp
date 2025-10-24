@@ -83,6 +83,11 @@ public:
         head = nullptr; // Ensure head is null after deletion
     }
 
+    //function to get head (for iterating through category list)
+    itemCategory* getHead(){
+        return head;
+    }
+
     // Method to add a new node to the front of the list
     void addFront(string val) {
         itemCategory* newNode = new itemCategory(val);
@@ -159,14 +164,14 @@ productData(string item, string name, categoryList list):
     itemID(item), productName(name), itemCategories(list){}
 
 //public interface getters to print after searching
-string getName(){
+string getName() const{
     return this->productName;
 }
-string getID(){
+string getID() const{
     return this->itemID;
 }
 
-void printCategories(){ //display categories
+void printCategories() const{ //display categories
     itemCategories.display();
 }
 

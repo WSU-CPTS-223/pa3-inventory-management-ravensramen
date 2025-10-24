@@ -51,8 +51,10 @@ void bootStrap(ifstream& productsCSV, idMap idHashMap, categoryMap categoryHashM
     
     ///READ CSV INTO BOTH CONTAINERS
 
-    readCSVintoIDMAP(idHashMap, productsCSV);
-    
+    readCSVintoMAPS(idHashMap, categoryHashMap, productsCSV);
+
+
+    printCategoryMap(categoryHashMap);//FOR DEBUGGING, REPLACE W TEST CASE
     
     // TODO: Do all your bootstrap operations here
     // example: reading from CSV and initializing the data structures
@@ -60,7 +62,7 @@ void bootStrap(ifstream& productsCSV, idMap idHashMap, categoryMap categoryHashM
     // use proper programming practices
 }
 
-void readCSVintoIDMAP(idMap idLookup, ifstream& inputCSV){
+void readCSVintoMAPS(idMap idLookup, categoryMap categoryHashMap, ifstream& inputCSV){
 
     if (!inputCSV.is_open()){
         std::cerr <<"Cannot open the product csv for reading. "<<endl;
@@ -99,20 +101,29 @@ void readCSVintoIDMAP(idMap idLookup, ifstream& inputCSV){
         productData product(itemID, name, categories); 
         
         idLookup.insert(itemID, product); //insert into the map, id is the key, product data as the data
-    
+        
+        //populate category map, place product data in index spot for each category it fits into
+    itemCategory* iterator = categories.getHead();
+
+    while (iterator != nullptr) { 
+        categoryHashMap.addProductToCategory(iterator->data, product); // Use iterator->data
+        iterator = iterator->next;
+        }
+
         continue; //skips rest of the line -> goes to next iteration (we extracted all the required info)
     
     }
 
 }
 
-string removeExtraCSVCharacters(string& improperString){
+string removeExtraCSVCharacters(string& improperString) {
+    // remove all double quotes from the string
+    improperString.erase(
+        std::remove(improperString.begin(), improperString.end(), '\"'),
+        improperString.end()
+    );
 
-    //have to run this erase function twice, the name has back slashes too many damn times
-    improperString.erase(std::remove(improperString.begin(), improperString.end(), '\"'));
-    improperString.erase(std::remove(improperString.begin(), improperString.end(), '\"'));
-
-    return improperString; //string now cleaned up
+    return improperString; // return the cleaned-up string
 }
 
 void extractCategories(string& categoryString, categoryList& categories){
@@ -120,7 +131,10 @@ void extractCategories(string& categoryString, categoryList& categories){
     categoryList itemCategories;
     //working on parsing categories, need to work on cleaning up spaces and stuff :'))
 
-    categoryString.erase(std::remove(categoryString.begin(), categoryString.end(), '\"'));
+    categoryString.erase(
+    std::remove(categoryString.begin(), categoryString.end(), '\"'),
+    categoryString.end()
+    );
 
     stringstream ss(categoryString); //one string stream for all categories to parse again
     string category;
@@ -135,9 +149,34 @@ void extractCategories(string& categoryString, categoryList& categories){
         return !isspace(ch);
     }).base(), category.end());
 
-    cout << category << '\n';
     
     categories.addBack(category); //add each read category to the linked list of categories
     }
 
+}
+
+////////////////////FOR DEBUG, REPLACE WITH TESTCASE LATER
+
+void printCategoryMap(categoryMap& cmap) {
+    std::vector<std::string> testCategories = {"Sports & Outdoors"};
+
+    for (const auto& cat : testCategories) {
+        std::cout << "Category: " << cat << std::endl;
+
+        list<productData>* products = cmap.find(cat);
+        if (!products || products->empty()) {
+            std::cout << "  No products found.\n";
+            continue;
+        }
+
+        for (const auto& p : *products) {
+            // Use the getters from productData
+            std::cout << "  - " << p.getID() << " : " << p.getName() << std::endl;
+
+            // Optionally print categories for this product
+            // p.printCategories();
+        }
+
+        std::cout << std::endl;
+    }
 }

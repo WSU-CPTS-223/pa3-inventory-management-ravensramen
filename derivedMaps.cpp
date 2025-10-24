@@ -41,6 +41,8 @@ class categoryMap : public hashMap<string, list<productData>>{
 
 using hashMap::hashMap;
 
+public:
+
 void addProductToCategory(const string& category, productData product){
     list<productData>* products = this->find(category); //linked list of products for given category
 
@@ -54,6 +56,7 @@ void addProductToCategory(const string& category, productData product){
         this->insert(category, newProductCategory);  //insert into the hash map, category name is the key, product linked list is the data
     }
 }
+
 
 void listCategoryItems(const string& category){
     list<productData>* productList = this->find(category);

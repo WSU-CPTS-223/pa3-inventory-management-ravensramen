@@ -4,8 +4,9 @@
 //10/18
 
 //TO:DO
-//work on parsing CSV
-//test maps
+//line 88 of functions.cpp error
+
+//ADD TEST CASES
 
 //declaration of functions and libraries used by main
 //descriptions in .cpp
@@ -16,6 +17,9 @@
 
 #include <fstream> //for csv file reading
 #include <sstream>
+
+#include <list>
+#include<vector>
 
 #include "derivedMaps.cpp"
 
@@ -30,8 +34,10 @@ void evalCommand(string line);
 
 void bootStrap(ifstream& productsCSV, idMap idHashMap, categoryMap categoryHashMap);
 
-void readCSVintoIDMAP(idMap idLookup, ifstream& inputCSV);
+void readCSVintoMAPS(idMap idLookup, categoryMap categoryHashMap, ifstream& inputCSV);
 
 string removeExtraCSVCharacters(string& improperString);
 
 void extractCategories(string& categoryString, categoryList& categories);
+
+void printCategoryMap(categoryMap& cmap);
