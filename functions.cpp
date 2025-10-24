@@ -23,7 +23,7 @@ bool validCommand(string line)
 }
 
 //runs operation coresponding to user input command
-void evalCommand(string line)
+void evalCommand(idMap& idHashMap, string line) //maps are already populated
 {
     if (line == "help")
     {
@@ -32,8 +32,10 @@ void evalCommand(string line)
     // if line starts with find
     else if (line.rfind("find", 0) == 0)
     {
-        // Look up the appropriate datastructure to find if the inventory exist
-        cout << "YET TO IMPLEMENT!" << endl;
+        string idInput;
+        cout<<"Item ID: ";
+        cin>>idInput;
+        findIfIDExists(idHashMap, idInput);
     }
     // if line starts with listInventory
     else if (line.rfind("listInventory") == 0)
@@ -44,33 +46,28 @@ void evalCommand(string line)
 }
 
 //Main program logic -> reads input data into data structures
-void bootStrap(ifstream& productsCSV, idMap idHashMap, categoryMap categoryHashMap)
+void bootStrap(ifstream& productsCSV, idMap& idHashMap, categoryMap& categoryHashMap)
 {
     cout << "Welcome to Amazon Inventory System\n" << endl;
     cout << "Enter \"quit\" to exit or \"help\" to view commands:" << endl;
     
     ///READ CSV INTO BOTH CONTAINERS
-
     readCSVintoMAPS(idHashMap, categoryHashMap, productsCSV);
 
 
-    printCategoryMap(categoryHashMap);//FOR DEBUGGING, REPLACE W TEST CASE
+    //printCategoryMap(categoryHashMap);//FOR DEBUGGING, REPLACE W TEST CASE
     
-    // TODO: Do all your bootstrap operations here
-    // example: reading from CSV and initializing the data structures
-    // Don't dump all code into this single function
-    // use proper programming practices
 }
 
-void readCSVintoMAPS(idMap idLookup, categoryMap categoryHashMap, ifstream& inputCSV){
+//Function that parses CSV into map containers
+void readCSVintoMAPS(idMap& idLookup, categoryMap& categoryHashMap, ifstream& inputCSV){
 
     if (!inputCSV.is_open()){
         std::cerr <<"Cannot open the product csv for reading. "<<endl;
         return; //return, can't parse invalid CSV
     }
 
-    std::string line;
-
+    std::string line; //stores each line of CSV
     getline(inputCSV, line); //throwaway first line (just has categories)
 
     while(getline(inputCSV, line)){ //extracts one line from the csv, goes on to parse it
@@ -87,9 +84,9 @@ void readCSVintoMAPS(idMap idLookup, categoryMap categoryHashMap, ifstream& inpu
 
         //get name
         getline(ss, name, ',');
-        name = removeExtraCSVCharacters(name);
+        name = removeExtraCSVCharacters(name); //remove backslash/space characters
 
-        getline(ss, consumeDelim, ','); //consume 2 categories we dont gaf about (brand name, ASIN)
+        getline(ss, consumeDelim, ','); //consume 2 categories we dont need about (brand name, ASIN)
         getline(ss, consumeDelim, ',');
         
         getline(ss, category, ','); 
@@ -97,25 +94,30 @@ void readCSVintoMAPS(idMap idLookup, categoryMap categoryHashMap, ifstream& inpu
 
         extractCategories(category, categories);
 
-        //create an instance productData now that all fields are extracted from CSV
+    //store all product fields in productData object
         productData product(itemID, name, categories); 
         
-        idLookup.insert(itemID, product); //insert into the map, id is the key, product data as the data
+    //insert into id map
+        idLookup.insert(itemID, product); 
         
-        //populate category map, place product data in index spot for each category it fits into
-    itemCategory* iterator = categories.getHead();
-
+        //to iterate through the products categories
+        itemCategory* iterator = categories.getHead();
+    
+    //for each product, add it to every category it matches
     while (iterator != nullptr) { 
         categoryHashMap.addProductToCategory(iterator->data, product); // Use iterator->data
         iterator = iterator->next;
         }
 
         continue; //skips rest of the line -> goes to next iteration (we extracted all the required info)
-    
+        
+        //FOR TESTING, REPLACE WITH TEST CASE LATER
+        printCategoryMap(categoryHashMap);
     }
 
 }
 
+//remove extra characters for consistency (before inserting into container)
 string removeExtraCSVCharacters(string& improperString) {
     // remove all double quotes from the string
     improperString.erase(
@@ -126,21 +128,21 @@ string removeExtraCSVCharacters(string& improperString) {
     return improperString; // return the cleaned-up string
 }
 
+//Category field may contain many categories -> add each category found to linked list
 void extractCategories(string& categoryString, categoryList& categories){
 
     categoryList itemCategories;
-    //working on parsing categories, need to work on cleaning up spaces and stuff :'))
 
-    categoryString.erase(
+    categoryString.erase( //erase extra characters in entire string
     std::remove(categoryString.begin(), categoryString.end(), '\"'),
     categoryString.end()
     );
 
-    stringstream ss(categoryString); //one string stream for all categories to parse again
+    stringstream ss(categoryString); //one string stream for all categories to parse individual categories
     string category;
 
 
-    while(getline(ss, category, '|')){ //while not at the end of the string stream
+    while(getline(ss, category, '|')){ //while not at the end of the string stream, separate by | symbol
         
     category.erase(category.begin(), find_if(category.begin(), category.end(), [](unsigned char ch) {
         return !isspace(ch); //isspace function looks for whitespace characters, returns non whitespace chars
@@ -155,28 +157,44 @@ void extractCategories(string& categoryString, categoryList& categories){
 
 }
 
-////////////////////FOR DEBUG, REPLACE WITH TESTCASE LATER
 
+void findIfIDExists(idMap &idHashMap, string ID){
+    
+    idHashMap.findProduct(ID); //container has a function to print message if found
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////FOR DEBUG, REPLACE WITH TESTCASE LATER ////////////////////////////////////////////////////////////////////
 void printCategoryMap(categoryMap& cmap) {
-    std::vector<std::string> testCategories = {"Sports & Outdoors"};
-
-    for (const auto& cat : testCategories) {
-        std::cout << "Category: " << cat << std::endl;
-
-        list<productData>* products = cmap.find(cat);
-        if (!products || products->empty()) {
-            std::cout << "  No products found.\n";
-            continue;
-        }
-
-        for (const auto& p : *products) {
-            // Use the getters from productData
-            std::cout << "  - " << p.getID() << " : " << p.getName() << std::endl;
-
-            // Optionally print categories for this product
-            // p.printCategories();
-        }
-
-        std::cout << std::endl;
+    //std::vector<std::string> testCategories = {"Sports & Outdoors"};
+    list<productData>* item = cmap.find("Sports & Outdoors");
+    
+    //prints out every item that is under given category
+    for (const auto& p : *item) {
+            cout << " - " << p.getID() << " : " << p.getName() << endl;
     }
 }
+

@@ -113,10 +113,9 @@ public:
     void display() const {
         itemCategory* current = head;
         while (current != nullptr) {
-            cout << current->data << " -> ";
+            cout << current->data << ", ";
             current = current->next;
         }
-        cout << "nullptr" << endl;
     }
 
     // Method to remove the first node

@@ -30,14 +30,17 @@ void printHelp();
 
 bool validCommand(string line);
 
-void evalCommand(string line);
+void evalCommand(idMap& idHashMap, string line);
 
-void bootStrap(ifstream& productsCSV, idMap idHashMap, categoryMap categoryHashMap);
+void bootStrap(ifstream& productsCSV, idMap& idHashMap, categoryMap& categoryHashMap);
 
-void readCSVintoMAPS(idMap idLookup, categoryMap categoryHashMap, ifstream& inputCSV);
+void readCSVintoMAPS(idMap& idLookup, categoryMap& categoryHashMap, ifstream& inputCSV);
 
 string removeExtraCSVCharacters(string& improperString);
 
 void extractCategories(string& categoryString, categoryList& categories);
 
-void printCategoryMap(categoryMap& cmap);
+void printCategoryMap(categoryMap& cmap); //FOR DEBUG, REPLACE WITH TESTCASES
+
+void findIfIDExists(idMap &idHashMap, string ID);
+

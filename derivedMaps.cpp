@@ -10,18 +10,19 @@ class idMap : public hashMap<string, productData>{
 using hashMap::hashMap;
 //insert uses inheirited function
 
+public: 
 void findProduct(const string& key){
     //finds if a product exists, if so print details, otherwise print not found
 
     if (this->find(key)!=nullptr){ //if an item with this keyvalue exists
         productData* foundProduct = this->find(key); //save a copy of the found data to print out
 
-        cout<<"An item with id: "<<key<<"was found in the data set!";
-        cout<<"Here is the information on it: ";
+        cout<<"An item with id: "<<key<<" was found in the data set.\n"<<endl;
+        cout<<"Here is the information on it: "<<endl;
 
         //functions to print out data on private members
-        cout<< foundProduct->getName(); 
-        cout<<foundProduct->getID();
+        cout<<"Product Name: "<< foundProduct->getName()<<endl;
+        cout<<"Categories: ";
         foundProduct->printCategories();
         
     }
