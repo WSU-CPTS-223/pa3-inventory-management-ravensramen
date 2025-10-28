@@ -19,7 +19,8 @@ bool validCommand(string line)
 {
     return (line == "help") ||
            (line.rfind("find", 0) == 0) ||
-           (line.rfind("listInventory") == 0);
+           (line.rfind("listInventory") == 0)
+           ||(line.rfind("test") == 0);
 }
 
 //runs operation coresponding to user input command
@@ -38,6 +39,10 @@ void evalCommand(idMap& idHashMap, categoryMap& categoryHashMap, const string& l
         cout<<"Input category: ";
         cin>>input;
         categoryHashMap.listCategoryItems(input);
+    }
+    else if(line.rfind("test", 0)== 0 ){
+        cout<<"You have reached the top secret testFunction field";
+        //create an instance of test functions object
     }
 }
 
