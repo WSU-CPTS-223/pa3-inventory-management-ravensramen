@@ -2,6 +2,10 @@ TESTING FUNCTIONS AND LOGIC:
 
 The test cases included check that both unordered map containers basic operations are functioning
 as intended. These are common operations throughout the program and edge cases are included as well.
+I tried creating a class to encapsulate these, but ran into many redefinition errors, so these are all
+in one self-sufficient function in functions.cpp. 
+
+If assert fails, the proper message is displayed on the debug window.
 
 TEST 1: Insert into map 
 Test case checks that inputting a id key and associated product data is properly stored in the

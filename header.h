@@ -40,8 +40,10 @@ string removeExtraCSVCharacters(string& improperString);
 
 void extractCategories(string& categoryString, categoryList& categories);
 
-void printCategoryMap(categoryMap& cmap); //FOR DEBUG, REPLACE WITH TESTCASES
+//void printCategoryMap(categoryMap& cmap); //FOR DEBUG, REPLACE WITH TESTCASES
 
 void findIfIDExists(idMap &idHashMap, string ID);
 
 void findItemsInCategory(categoryMap &catMap, string Category);
+
+void testCASES();

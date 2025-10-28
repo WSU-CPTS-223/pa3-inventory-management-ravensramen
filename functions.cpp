@@ -1,6 +1,7 @@
 //these are all the function definitions for main, declaration in header
 
 #include "header.h"
+#include <cassert>
 
 //prints menu
 void printHelp()
@@ -41,8 +42,9 @@ void evalCommand(idMap& idHashMap, categoryMap& categoryHashMap, const string& l
         categoryHashMap.listCategoryItems(input);
     }
     else if(line.rfind("test", 0)== 0 ){
-        cout<<"You have reached the top secret testFunction field";
-        //create an instance of test functions object
+        cout<<"You have reached the top secret testFunction field B)" <<endl;
+        testCASES();
+        
     }
 }
 
@@ -112,8 +114,8 @@ void readCSVintoMAPS(idMap& idLookup, categoryMap& categoryHashMap, ifstream& in
 
         continue; //skips rest of the line -> goes to next iteration (we extracted all the required info)
         
-        //FOR TESTING, REPLACE WITH TEST CASE LATER
-        printCategoryMap(categoryHashMap);
+        //FOR DEBUGGING
+        //printCategoryMap(categoryHashMap);
     }
 
 }
@@ -172,30 +174,77 @@ void findItemsInCategory(categoryMap &catMap, string Category){
 
 }
 
+//////////////////////////////////////////////// TEST CASE FUNCTIONS
 
+void testCASES(void){
+    idMap TESTIDMAP; //two examples to test
+    categoryMap TESTCATEGORYMAP;
 
+    //create two products for testing
+    categoryList categories;
+    categoryList categories2;
+    categories.addFront("Toys"), categories.addBack("Dolls");
+    categories2.addFront("Sports"), categories2.addBack("Outdoors");
 
+    string itemID("1234"), itemID2("4321"), name1("Action Figure"), name2("Bike");
 
-
-
-
-
-
-
-
-
-
-
-
-
-////////////////////FOR DEBUG, REPLACE WITH TESTCASE LATER ////////////////////////////////////////////////////////////////////
-void printCategoryMap(categoryMap& cmap) {
-    //std::vector<std::string> testCategories = {"Sports & Outdoors"};
-    list<productData>* item = cmap.find("Sports & Outdoors");
+    //populate example products
+    productData product1(itemID, name1, categories);
+    productData product2(itemID2, name2, categories2);
     
-    //prints out every item that is under given category
-    for (const auto& p : *item) {
-            cout << " - " << p.getID() << " : " << p.getName() << endl;
-    }
+
+///////////TEST INSERTION
+
+    TESTIDMAP.insert(product1.getID(), product1); //insert example product
+    productData* found; //iterator that can store find results
+
+    found = TESTIDMAP.find(product1.getID()); 
+    //ASSERT STATEMENTS, THEY ONLY PRINT IF FALSE (?)
+    assert(found->getID() == product1.getID()); // see if product data matches what's in the map
+
+    //EDGE CASE: find for a product that DNE
+    found = TESTIDMAP.find("4321");
+    //assert(found!=nullptr); //should break, found should be a nullptr/empty (commented out to continue tests)
+    assert(found == nullptr); //should be valid
+
+
+    //could do the same for second map, same logic applies
+    TESTIDMAP.erase("1234"); //erase all items the map so it can be used in the next test cases
+
+///////////TEST MAP SIZE
+
+    TESTCATEGORYMAP.addProductToCategory("Toys", product1); //"Toys now includes 1 product"
+    TESTCATEGORYMAP.addProductToCategory("Sports", product2); 
+
+    assert(TESTCATEGORYMAP.size()==2); //the map should now include 2 products
+    //assert(TESTCATEGORYMAP.size()!= 2); //breaks (as expected)
+    TESTCATEGORYMAP.erase("Toys"); //empty for next tests
+    TESTCATEGORYMAP.erase("Sports");
+
+    //EDGE CASE: Check size of an empty map
+    //dont insert anything
+    assert(TESTCATEGORYMAP.size() == 0); //should equal 0, not nullptr or anything
+
+/////////////TEST MAP ERASE
+
+    TESTIDMAP.insert(product1.getID(), product1);
+    TESTIDMAP.erase(product1.getID()); 
+    assert(TESTIDMAP.empty() == true); //the boolean expression should return true
+
+    //EDGE CASE: Erasing from an empty map should not break anything
+    TESTIDMAP.erase(product1.getID()); //product was already erased, should be an empty map
+    assert(TESTIDMAP.empty() == true);
+
+    cout<<"All assert test functions passed."; //if this message displays, assert functions worked properly, no abnormal bugs
 }
 
+////////////////////FOR DEBUG, REPLACED WITH TESTCASE LATER ////////////////////////////////////////////////////////////////////
+// void printCategoryMap(categoryMap& cmap) {
+//     //std::vector<std::string> testCategories = {"Sports & Outdoors"};
+//     list<productData>* item = cmap.find("Sports & Outdoors");
+    
+//     //prints out every item that is under given category
+//     for (const auto& p : *item) {
+//             cout << " - " << p.getID() << " : " << p.getName() << endl;
+//     }
+// }
