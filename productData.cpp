@@ -162,6 +162,23 @@ productData() : itemID(""), productName("") {}
 productData(string item, string name, categoryList list):
     itemID(item), productName(name), itemCategories(list){}
 
+
+// copy constructor
+productData(const productData& other)
+    : itemID(other.itemID),
+      productName(other.productName),
+      itemCategories(other.itemCategories)
+{}
+
+// copy assignment
+productData& operator=(const productData& other) {
+    if (this != &other) {
+        itemID = other.itemID;
+        productName = other.productName;
+        itemCategories = other.itemCategories; // deep copies the linked list
+    }
+    return *this;
+}    
 //public interface getters to print after searching
 string getName() const{
     return this->productName;

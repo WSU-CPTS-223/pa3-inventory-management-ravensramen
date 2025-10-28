@@ -134,7 +134,6 @@ string removeExtraCSVCharacters(string& improperString) {
 //Category field may contain many categories -> add each category found to linked list
 void extractCategories(string& categoryString, categoryList& categories){
 
-    categoryList itemCategories;
 
     categoryString.erase( //erase extra characters in entire string
     std::remove(categoryString.begin(), categoryString.end(), '\"'),
