@@ -12,7 +12,7 @@ Test case checks that inputting a id key and associated product data is properly
 unordered map based on the hash function. 
 
     - Case 1 Reg: Find function will return the data of the item inserted (as expected)
-`   - Case 2 Edge: Inserting an item with the same key will result in overwrite (colision handeling, overwrite)
+    - Case 2 Edge: Inserting an item with the same key will result in overwrite (colision handeling, overwrite)
 
 TEST 2: Check size of map
 After inserting a few items into the hashmap, we should easily be able to retrieve the number of items. This is useful for rehashing or other manipulation of our data set that we may have to do later.
